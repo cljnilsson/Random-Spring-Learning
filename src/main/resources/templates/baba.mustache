@@ -12,11 +12,12 @@
         </thead>
         <tbody>
             {{#all}}
-                <tr>
-                    <td class="align-middle">{{name}}</td>
-                    <td class="align-middle">{{done}}</td>
+                <tr data-id={{id}}>
+                    <td class="align-middle name" contenteditable="true"><span>{{name}}</span></td>
+                    <td class="align-middle done" contenteditable="true"><span>{{done}}</span></td>
                     <td>
                         <button class="btn btn-large btn-primary del-item">-</button>
+                        <button class="btn btn-large btn-primary save-item">save</button>
                     </td>
                 </tr>
             {{/all}}

@@ -36,6 +36,16 @@ public class apiController
         return "Saved";
     }
 
+    @PostMapping("/update")
+    public @ResponseBody String updateToDo(@RequestParam Long id, @RequestParam String name, @RequestParam Boolean done) {
+        ToDoItem n = toDoItemRepository.findById(id).get(); // Lazily assumes its never null.
+        n.setName(name);
+        n.setDone(done);
+        toDoItemRepository.save(n);
+        return "Saved";
+    }
+
+
     @GetMapping("/template")
     public ModelAndView template() {
         Map<String, Object> data = new HashMap<>();
