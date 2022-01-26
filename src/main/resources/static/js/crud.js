@@ -1,3 +1,14 @@
+ let sock = new SockJS('/portfolio');
+
+let stomp = Stomp.over(sock);
+stomp.connect({}, function (frame) {
+  console.log('Connected: ' + frame);
+  stomp.subscribe('/topic/greeting', function (greeting) {
+      console.log(JSON.parse(greeting.body).content);
+  });
+  stomp.send("/app/greeting", {}, JSON.stringify({'name': "Lukas"}));
+});
+
 async function postData(url = '', data = {}) {
   const response = await fetch(url, {
     method: 'POST',
@@ -7,15 +18,16 @@ async function postData(url = '', data = {}) {
     },
     body: JSON.stringify(data)
   });
+  return response;
 }
 
 $(".add-item").click(() =>  {
-    console.log("baaaaaaaaaaa");
     postData(`/api/add?name=test data&done=false`);
 });
 
-$(".del-item").click(() =>  {
-    console.log("baaaaaaaaaaa2");
+$(".del-item").click(async (e) =>  {
+    let id  = $(e.target).closest("tr").data("id");
+    let t   = await postData(`/api/delete?id=${id}`);
 });
 
 function validateId(id) {
@@ -30,12 +42,13 @@ function validateDone(done) {
     return done === "false" || done === "true";
 }
 
-$(".save-item").click((e) =>  {
-    let id   =  $(e.target).closest("tr").data("id");
+$(".save-item").click(async (e) =>  {
+    let id   = $(e.target).closest("tr").data("id");
     let name = $(e.target).closest("tr").find("td.name > span").text();
     let done = $(e.target).closest("tr").find("td.done > span").text();
 
     if(validateDone && validateId && validateName) {
-        postData(`/api/update?name=${name}&done=${done}&id=${id}`);
+        let t = await postData(`/api/update?name=${name}&done=${done}&id=${id}`);
+        console.log(t);
     }
 });
