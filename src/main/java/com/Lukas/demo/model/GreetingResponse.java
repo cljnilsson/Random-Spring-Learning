@@ -1,4 +1,4 @@
-package com.Lukas.demo;
+package com.Lukas.demo.model;
 
 public class GreetingResponse
 {

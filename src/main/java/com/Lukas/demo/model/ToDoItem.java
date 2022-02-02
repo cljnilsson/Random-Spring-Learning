@@ -11,6 +11,9 @@ public class ToDoItem
     @Id
     @GeneratedValue
     private Long id;
+    public Long getId() {
+        return id;
+    }
 
     private String name;
     public String getName()

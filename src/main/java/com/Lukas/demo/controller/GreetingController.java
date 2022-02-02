@@ -1,5 +1,7 @@
-package com.Lukas.demo;
+package com.Lukas.demo.controller;
 
+import com.Lukas.demo.model.Greeting;
+import com.Lukas.demo.model.GreetingResponse;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
