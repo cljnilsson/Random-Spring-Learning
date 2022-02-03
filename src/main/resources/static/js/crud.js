@@ -91,3 +91,8 @@ $("tbody").on("click", ".save-item", async (e) => {
 		);
 	}
 });
+
+$.get("/api/user", function(data) {
+	$("#user").text(data.name);
+	$("#avatar").attr("src", data.avatar);
+});

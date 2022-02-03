@@ -38,8 +38,13 @@ public class apiController
     }
 
     @GetMapping("/user")
-    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        return Collections.singletonMap("name", principal.getAttribute("name"));
+    public Map<String, String> user(@AuthenticationPrincipal OAuth2User principal) {
+        System.out.println(principal.getAttributes());
+        HashMap<String, String> map = new HashMap<String, String>() {{
+            put("name", principal.getAttribute("name"));
+            put("avatar", principal.getAttribute("avatar_url"));
+        }};
+        return map;
     }
 
 
@@ -81,13 +86,5 @@ public class apiController
             return new ResponseEntity(HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    }
-
-    @GetMapping("/template")
-    public ModelAndView template() {
-        Map<String, Object> data = new HashMap<>();
-        List<ToDoItem> all = toDoItemRepository.findAll();
-        data.put("all", all);
-        return new ModelAndView("todo-crud", data);
     }
 }
