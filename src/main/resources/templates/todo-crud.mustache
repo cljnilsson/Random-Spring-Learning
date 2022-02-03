@@ -3,6 +3,7 @@
 {{>layout/header}}
 <body class="container">
     <p>Hello friends</p>
+    Logged in as: <span id="user"></span>
     <table class="table">
         <thead>
         <tr>
@@ -25,5 +26,10 @@
     </table>
     <button class="btn btn-large btn-primary add-item">+</button>
 </body>
+<script type="text/javascript">
+    $.get("/api/user", function(data) {
+        $("#user").html(data.name);
+    });
+</script>
 <script src="/js/crud.js"></script>
 </html>
