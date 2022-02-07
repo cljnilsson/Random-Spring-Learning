@@ -21,7 +21,7 @@ stomp.connect({}, function (frame) {
 			<tr data-id="${added.id}">
 				<td class="align-middle name" contenteditable="true">${added.name}</td>
 				<td class="align-middle done" contenteditable="true">${added.done}</td>
-				<td>
+				<td class="text-end">
 					<button class="btn btn-large btn-primary del-item">-</button>
 					<button class="btn btn-large btn-primary save-item">save</button>
 				</td>
@@ -54,7 +54,14 @@ async function postData(url = "", data = {}) {
 }
 
 $(".add-item").click(() => {
-	postData(`/api/add?name=test data&done=false`);
+	let name = $("#todo-text").val();
+	let done = $("#todo-done").is(":checked") ? "true" : "false";
+
+	if(name !== "") {
+		postData(`/api/add?name=${name}&done=${done}`);
+		$("#todo-text").text("");
+	}
+	
 });
 
 $("tbody").on("click", ".del-item", async (e) => {
@@ -79,11 +86,10 @@ function validateDone(done) {
 }
 
 $("tbody").on("click", ".save-item", async (e) => {
-	let id = $(e.target).closest("tr").data("id");
-	let name = $(e.target).closest("tr").find("td.name").text();
-	console.log($(e.target).closest("tr"))
-	let done = $(e.target).closest("tr").find("td.done").text();
-	console.log(done);
+	let row 	= $(e.target).closest("tr");
+	let id 		= $(row).data("id");
+	let name 	= $(row).find("td.name").text();
+	let done 	= $(row).find("td.done").text();
 
 	if (validateDone && validateId && validateName) {
 		let t = await postData(
@@ -96,3 +102,9 @@ $.get("/api/user", function(data) {
 	$("#user").text(data.name);
 	$("#avatar").attr("src", data.avatar);
 });
+
+function logout() {
+    $.post("/logout", function() {
+        location.reload();
+    })
+}

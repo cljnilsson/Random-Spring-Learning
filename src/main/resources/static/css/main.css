@@ -1,8 +1,13 @@
-body {
-    color: blue;
+html {
+    background-color: white;
+}
+
+.container {
+    background-color: gray;
+    height: 100vh;
 }
 
 #avatar {
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
 }

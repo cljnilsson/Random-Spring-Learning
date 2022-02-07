@@ -1,30 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 {{>layout/header}}
-<body class="container">
-    <p>Hello friends</p>
-    Logged in as: <img id="avatar"><span id="user"></span>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">State</th>
-        </tr>
-        </thead>
-        <tbody>
+
+<body>
+    {{>layout/nav}}
+    <div class="container">
+        <h3 class="text-center">Todo-list-demo</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">State</th>
+            </tr>
+            </thead>
+            <tbody>
             {{#all}}
                 <tr data-id={{id}}>
                     <td class="align-middle name" contenteditable="true"><span>{{name}}</span></td>
                     <td class="align-middle done" contenteditable="true"><span>{{done}}</span></td>
-                    <td>
+                    <td class="text-end">
                         <button class="btn btn-large btn-primary del-item">-</button>
                         <button class="btn btn-large btn-primary save-item">save</button>
                     </td>
                 </tr>
             {{/all}}
-        </tbody>
-    </table>
-    <button class="btn btn-large btn-primary add-item">+</button>
+            </tbody>
+        </table>
+        <div class="row py-3">
+            <div class="col-md-auto">
+                <button class="btn btn-large btn-primary add-item">+</button>
+            </div>
+            <div class="col px-0">
+                <input id="todo-text" type="text" class="form-control" placeholder="Todo-text">
+            </div>
+            <div class="col-1 align-self-center text-center">
+                <input id="todo-done" type="checkbox" class="form-check-input">
+            </div>
+        </div>
+    </div>
 </body>
 <script src="/js/crud.js"></script>
 </html>

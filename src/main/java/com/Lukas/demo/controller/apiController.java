@@ -39,11 +39,16 @@ public class apiController
 
     @GetMapping("/user")
     public Map<String, String> user(@AuthenticationPrincipal OAuth2User principal) {
-        System.out.println(principal.getAttributes());
-        HashMap<String, String> map = new HashMap<String, String>() {{
-            put("name", principal.getAttribute("name"));
-            put("avatar", principal.getAttribute("avatar_url"));
-        }};
+        HashMap<String, String> map;
+        if(principal != null) {
+            System.out.println(principal.getAttributes());
+            map = new HashMap<String, String>() {{
+                put("name", principal.getAttribute("name"));
+                put("avatar", principal.getAttribute("avatar_url") == null ? principal.getAttribute("picture") : principal.getAttribute("avatar_url"));
+            }};
+        } else {
+            map = new HashMap<>();
+        }
         return map;
     }
 
