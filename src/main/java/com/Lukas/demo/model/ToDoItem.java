@@ -1,13 +1,16 @@
 package com.Lukas.demo.model;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 public class ToDoItem
 {
-
     @Id
     @GeneratedValue
     private Long id;

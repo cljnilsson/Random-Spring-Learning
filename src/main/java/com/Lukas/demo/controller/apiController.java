@@ -37,22 +37,6 @@ public class apiController
         return String.format("Hello %s!", name);
     }
 
-    @GetMapping("/user")
-    public Map<String, String> user(@AuthenticationPrincipal OAuth2User principal) {
-        HashMap<String, String> map;
-        if(principal != null) {
-            System.out.println(principal.getAttributes());
-            map = new HashMap<String, String>() {{
-                put("name", principal.getAttribute("name"));
-                put("avatar", principal.getAttribute("avatar_url") == null ? principal.getAttribute("picture") : principal.getAttribute("avatar_url"));
-            }};
-        } else {
-            map = new HashMap<>();
-        }
-        return map;
-    }
-
-
     @GetMapping("/all")
     public @ResponseBody Iterable<ToDoItem> allToDos() {
         return toDoItemRepository.findAll();

@@ -42,11 +42,13 @@ stomp.connect({}, function (frame) {
 });
 
 async function postData(url = "", data = {}) {
+	console.log(Cookies.get("XSRF-TOKEN"))
 	const response = await fetch(url, {
 		method: "POST",
 		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
 		headers: {
 			"Content-Type": "application/json",
+			"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
 		},
 		body: JSON.stringify(data),
 	});
@@ -98,7 +100,20 @@ $("tbody").on("click", ".save-item", async (e) => {
 	}
 });
 
-$.get("/api/user", function(data) {
+$.ajaxSetup({
+	beforeSend : function(xhr, settings) {
+		console.log(1)
+		if(settings.type === "POST" || settings.type === "PUT" || settings.type === "DELETE") {
+			console.log(2);
+			if(!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+				console.log("happens")
+				xhr.setRequestHeader("X-XSRF-TOKEN", Cookies.get("XSRF-TOKEN"));
+			}
+		}
+	}
+});
+
+$.get("/auth/user", function(data) {
 	$("#user").text(data.name);
 	$("#avatar").attr("src", data.avatar);
 });
