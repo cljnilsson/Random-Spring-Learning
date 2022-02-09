@@ -19,4 +19,9 @@ public class GoogleUser extends DefaultOidcUser implements CryptoAuthenticatedPr
     {
         return this.getAttribute("picture");
     }
+
+    @Override
+    public String getId() {
+        return this.getAttribute("sub");
+    }
 }

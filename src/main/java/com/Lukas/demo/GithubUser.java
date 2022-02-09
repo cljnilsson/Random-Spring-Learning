@@ -26,4 +26,9 @@ public class GithubUser extends DefaultOAuth2User implements CryptoAuthenticated
     {
         return this.getAttribute("avatar_url");
     }
+
+    @Override
+    public String getId() {
+        return this.getAttribute("id");
+    }
 }

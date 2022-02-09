@@ -19,7 +19,7 @@ public class authApiController
     @GetMapping("/user")
     public Map<String, String> user(@AuthenticationPrincipal OAuth2User principal) {
         CryptoAuthenticatedPrincipal iPrincipal = (CryptoAuthenticatedPrincipal)principal;
-        //System.out.println(principal.getAttributes());
+        System.out.println(principal.getAttributes());
         HashMap<String, String> map;
         if(principal != null) { // In theory this should never fail but for the sake of not crashing..
             //System.out.println(principal.getAttributes());
