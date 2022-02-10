@@ -1,5 +1,6 @@
-package com.Lukas.demo;
+package com.Lukas.demo.model;
 
+import com.Lukas.demo.service.CryptoAuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 

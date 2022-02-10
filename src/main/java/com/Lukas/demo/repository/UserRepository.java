@@ -12,4 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long>
 {
     @Query("SELECT u from User u where u.oauthId=:id and u.oauthProvider=:oauth")
     public User findOneByOauthIdAndProvider(@Param("oauth") String s, @Param("id") String i);
+
+    @Query("SELECT u from User u where u.oauthId=:id")
+    public User findOneByOauth(@Param("id") String s);
 }

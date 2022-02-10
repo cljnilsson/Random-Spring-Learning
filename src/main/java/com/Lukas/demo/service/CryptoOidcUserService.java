@@ -1,5 +1,6 @@
-package com.Lukas.demo;
+package com.Lukas.demo.service;
 
+import com.Lukas.demo.model.GoogleUser;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;

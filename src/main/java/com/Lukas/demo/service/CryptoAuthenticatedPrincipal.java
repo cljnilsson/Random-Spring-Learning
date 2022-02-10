@@ -1,4 +1,4 @@
-package com.Lukas.demo;
+package com.Lukas.demo.service;
 
 public interface CryptoAuthenticatedPrincipal
 {

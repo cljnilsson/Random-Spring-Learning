@@ -1,9 +1,9 @@
 package com.Lukas.demo.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User
@@ -18,6 +18,8 @@ public class User
     private String oauthId;
     private String oauthProvider;
 
+    @OneToMany(mappedBy = "user")
+    private Set<UserRoles> roles;
 
     @Column
     public String getOauthProvider()
@@ -30,7 +32,6 @@ public class User
         this.oauthProvider = oauthProvider;
     }
 
-    @Column
     public String getOauthId()
     {
         return oauthId;
@@ -39,5 +40,15 @@ public class User
     public void setOauthId(String oauthId)
     {
         this.oauthId = oauthId;
+    }
+
+    public ArrayList<UserRoles> getRoles()
+    {
+        return new ArrayList<>(this.roles);
+    }
+
+    public void setRoles(Set<UserRoles> roles)
+    {
+        this.roles = roles;
     }
 }

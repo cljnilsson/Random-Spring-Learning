@@ -32,11 +32,6 @@ public class apiController
     @Autowired
     private SimpMessagingTemplate template;
 
-    @GetMapping("/hello")
-    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
-    }
-
     @GetMapping("/all")
     public @ResponseBody Iterable<ToDoItem> allToDos() {
         return toDoItemRepository.findAll();

@@ -1,14 +1,8 @@
-package com.Lukas.demo;
+package com.Lukas.demo.model;
 
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import com.Lukas.demo.service.CryptoAuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 
 public class GithubUser extends DefaultOAuth2User implements CryptoAuthenticatedPrincipal
 {
@@ -29,6 +23,6 @@ public class GithubUser extends DefaultOAuth2User implements CryptoAuthenticated
 
     @Override
     public String getId() {
-        return this.getAttribute("id");
+        return this.getAttribute("id").toString();
     }
 }
