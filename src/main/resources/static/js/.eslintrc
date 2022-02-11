@@ -1,0 +1,28 @@
+
+{
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "script",
+		"ecmaVersion": 13
+    },
+	"globals": {
+		"SockJS": true,
+		"Stomp": true,
+		"Cookies": true
+	},
+    "env": {
+        "browser": true,
+		"es6": true,
+		"jquery": true
+    },
+	"rules": {
+	  "quotes": [2, "double", "backtick"],
+	  "semi": 1,
+	  "camelcase": 2,
+	  "valid-typeof": 2,
+	  "no-unused-expressions": 1,
+	  "no-unused-vars": 1,
+	  "object-curly-spacing": 0,
+	  "no-invalid-this": 2
+	}
+}

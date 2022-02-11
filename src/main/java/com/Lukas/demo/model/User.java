@@ -18,7 +18,7 @@ public class User
     private String oauthId;
     private String oauthProvider;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<UserRoles> roles;
 
     @Column

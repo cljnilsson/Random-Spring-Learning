@@ -1,5 +1,9 @@
 package com.Lukas.demo;
 
+import com.Lukas.demo.model.User;
+import com.Lukas.demo.model.UserRoles;
+import com.Lukas.demo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
@@ -17,6 +21,8 @@ import java.util.Set;
 @Component
 public class AuthorityMapper implements GrantedAuthoritiesMapper
 {
+    @Autowired
+    UserRepository users;
 
     @Override
     public Collection<? extends GrantedAuthority> mapAuthorities(Collection<? extends GrantedAuthority> authorities)
@@ -30,12 +36,17 @@ public class AuthorityMapper implements GrantedAuthoritiesMapper
                 OidcUserInfo userInfo = oidcUserAuthority.getUserInfo();
             } else if(OAuth2UserAuthority.class.isInstance(a)) {
                 OAuth2UserAuthority oauth2UserAuthority = (OAuth2UserAuthority)a;
-
                 Map<String, Object> userAttributes = oauth2UserAuthority.getAttributes();
-            }
 
-            // The roles given here are used for the web security but is not displayed in Principal authority for some reason.
-            mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER36"));
+                User u = users.findOneByOauth(userAttributes.get("id").toString());
+                if(u != null) {
+                    System.out.println(u.getRoles().size());
+                    for(UserRoles role : u.getRoles()) {
+                        System.out.println("Added: " + "ROLE_" + role.getRole().toUpperCase());
+                        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole().toUpperCase()));
+                    }
+                }
+            }
         });
         System.out.println(mappedAuthorities);
         return mappedAuthorities;

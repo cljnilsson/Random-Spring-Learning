@@ -41,8 +41,32 @@ stomp.connect({}, function (frame) {
 	stomp.send("/app/greeting", {}, JSON.stringify({ name: "Lukas" }));
 });
 
+function error(code = 0) {
+	let msg = "";
+	switch(code) {
+		case 200: // Do nothing
+			break;
+		case 403:
+			msg = "You probably don't have the authority to do that.";
+			break;
+		case 404:
+			msg = "Invalid URL.";
+			break;
+		default:
+			msg = "Unknown error";
+			break;
+	}
+
+	let parent = $(".alert-danger");
+
+	if(!parent.length) {
+		$("h3").after(`<div class="alert alert-danger" role="alert"></div>`);
+	}
+
+	$(".alert-danger").text(msg);
+}
+
 async function postData(url = "", data = {}) {
-	console.log(Cookies.get("XSRF-TOKEN"))
 	const response = await fetch(url, {
 		method: "POST",
 		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -55,13 +79,17 @@ async function postData(url = "", data = {}) {
 	return response;
 }
 
-$(".add-item").click(() => {
+$(".add-item").click(async () => {
 	let name = $("#todo-text").val();
 	let done = $("#todo-done").is(":checked") ? "true" : "false";
 
 	if(name !== "") {
-		postData(`/api/add?name=${name}&done=${done}`);
-		$("#todo-text").text("");
+		let t = await postData(`/api/add?name=${name}&done=${done}`);
+		if (t.status === 200) {
+			$("#todo-text").text("");
+		} else {
+			error(t.status);
+		}
 	}
 	
 });
@@ -72,6 +100,8 @@ $("tbody").on("click", ".del-item", async (e) => {
 
 	if (t.status === 200) {
 		// Display error or something if this is not the case
+	} else {
+		error(t.status);
 	}
 });
 
@@ -97,14 +127,18 @@ $("tbody").on("click", ".save-item", async (e) => {
 		let t = await postData(
 			`/api/update?name=${name}&done=${done}&id=${id}`
 		);
+
+		if (t.status === 200) {
+			// Display error or something if this is not the case
+		} else {
+			error(t.status);
+		}
 	}
 });
 
 $.ajaxSetup({
 	beforeSend : function(xhr, settings) {
-		console.log(1)
 		if(settings.type === "POST" || settings.type === "PUT" || settings.type === "DELETE") {
-			console.log(2);
 			if(!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
 				console.log("happens")
 				xhr.setRequestHeader("X-XSRF-TOKEN", Cookies.get("XSRF-TOKEN"));
@@ -116,6 +150,8 @@ $.ajaxSetup({
 $.get("/auth/user", function(data) {
 	$("#user").text(data.name);
 	$("#avatar").attr("src", data.avatar);
+}).fail(function() {
+	$(".alert-danger").value("reeeeeeeeeeeeee");
 });
 
 function logout() {

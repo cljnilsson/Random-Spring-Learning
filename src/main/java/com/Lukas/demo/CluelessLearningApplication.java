@@ -32,7 +32,7 @@ public class CluelessLearningApplication extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers("/login/**").permitAll()
 				// ROLE_USER seems to be given automatically, some sort of custom overrides seem to be required to give additional ones.
-				.antMatchers("/api/**").hasAnyAuthority("ROLE_USER")
+				.antMatchers("/api/**").hasAnyAuthority("ROLE_BIG_IDIOT")
 				.anyRequest().authenticated()
 			.and()
 				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
