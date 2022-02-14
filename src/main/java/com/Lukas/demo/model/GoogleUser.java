@@ -4,6 +4,9 @@ import com.Lukas.demo.service.CryptoAuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class GoogleUser extends DefaultOidcUser implements CryptoAuthenticatedPrincipal
 {
     public GoogleUser(OidcUser user) {
@@ -24,5 +27,11 @@ public class GoogleUser extends DefaultOidcUser implements CryptoAuthenticatedPr
     @Override
     public String getId() {
         return this.getAttribute("sub");
+    }
+
+    @Override
+    public String getProvider()
+    {
+        return "google";
     }
 }

@@ -148,6 +148,7 @@ $.ajaxSetup({
 });
 
 $.get("/auth/user", function(data) {
+	console.log(data);
 	$("#user").text(data.name);
 	$("#avatar").attr("src", data.avatar);
 }).fail(function() {

@@ -35,6 +35,7 @@ public class AuthorityMapper implements GrantedAuthoritiesMapper
                 OidcIdToken idToken = oidcUserAuthority.getIdToken();
                 OidcUserInfo userInfo = oidcUserAuthority.getUserInfo();
             } else if(OAuth2UserAuthority.class.isInstance(a)) {
+                // Unfinished, it should check for both id and provider
                 OAuth2UserAuthority oauth2UserAuthority = (OAuth2UserAuthority)a;
                 Map<String, Object> userAttributes = oauth2UserAuthority.getAttributes();
 
