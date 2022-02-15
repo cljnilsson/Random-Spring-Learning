@@ -2,7 +2,7 @@ package com.Lukas.demo.service;
 
 import java.util.ArrayList;
 
-public interface CryptoAuthenticatedPrincipal
+public interface CustomAuthenticatedPrincipal
 {
     String getName();
     String getImg();

@@ -1,13 +1,10 @@
 package com.Lukas.demo.model;
 
-import com.Lukas.demo.service.CryptoAuthenticatedPrincipal;
+import com.Lukas.demo.service.CustomAuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-public class GoogleUser extends DefaultOidcUser implements CryptoAuthenticatedPrincipal
+public class GoogleUser extends DefaultOidcUser implements CustomAuthenticatedPrincipal
 {
     public GoogleUser(OidcUser user) {
         super(user.getAuthorities(), user.getIdToken());

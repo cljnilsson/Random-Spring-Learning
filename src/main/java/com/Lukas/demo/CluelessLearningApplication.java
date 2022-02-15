@@ -2,8 +2,8 @@ package com.Lukas.demo;
 
 import com.Lukas.demo.model.GithubUser;
 import com.Lukas.demo.model.GoogleUser;
-import com.Lukas.demo.service.CryptoOauth2UserService;
-import com.Lukas.demo.service.CryptoOidcUserService;
+import com.Lukas.demo.service.CustomOauth2UserService;
+import com.Lukas.demo.service.CustomOidcUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,9 +30,9 @@ public class CluelessLearningApplication extends WebSecurityConfigurerAdapter {
 		http
 				.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/login/**").permitAll()
-				// ROLE_USER seems to be given automatically, some sort of custom overrides seem to be required to give additional ones.
-				.antMatchers("/api/**").hasAnyAuthority("ROLE_BIG_IDIOT")
+				.antMatchers("/login/**", "/error").permitAll()
+				//.antMatchers("/").not().hasAnyAuthority("ROLE_BLACKLIST")
+				.antMatchers("/api/**").hasAnyAuthority("ROLE_SUPERUSER")
 				.anyRequest().authenticated()
 			.and()
 				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
@@ -42,10 +42,11 @@ public class CluelessLearningApplication extends WebSecurityConfigurerAdapter {
 				.oauth2Login()
 				.successHandler(loginHandler)
 				.userInfoEndpoint()
+					// While it is named GoogleUser and Github users, in practice it's basically OauthUser and OidcUser
 					.customUserType(GoogleUser.class, "google")
 					.customUserType(GithubUser.class, "github")
-					.oidcUserService(new CryptoOidcUserService())
-					.userService(new CryptoOauth2UserService())
+					.oidcUserService(new CustomOidcUserService())
+					.userService(new CustomOauth2UserService())
 					.userAuthoritiesMapper(authMapper);
 	}
 }

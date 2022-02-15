@@ -27,27 +27,31 @@ public class AuthorityMapper implements GrantedAuthoritiesMapper
     @Override
     public Collection<? extends GrantedAuthority> mapAuthorities(Collection<? extends GrantedAuthority> authorities)
     {
-        System.out.println("IT DOES HAPPEN WOOOO");
         Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
         authorities.forEach(a -> {
+            User u; // Unfinished, it should check for both id and provider
+
             if(OidcUserAuthority.class.isInstance(a)) {
                 OidcUserAuthority oidcUserAuthority = (OidcUserAuthority)a;
-                OidcIdToken idToken = oidcUserAuthority.getIdToken();
-                OidcUserInfo userInfo = oidcUserAuthority.getUserInfo();
+
+                Map<String, Object> userAttributes = oidcUserAuthority.getAttributes();
+                u = users.findOneByOauth(userAttributes.get("sub").toString());
             } else if(OAuth2UserAuthority.class.isInstance(a)) {
-                // Unfinished, it should check for both id and provider
                 OAuth2UserAuthority oauth2UserAuthority = (OAuth2UserAuthority)a;
                 Map<String, Object> userAttributes = oauth2UserAuthority.getAttributes();
 
-                User u = users.findOneByOauth(userAttributes.get("id").toString());
-                if(u != null) {
-                    System.out.println(u.getRoles().size());
-                    for(UserRoles role : u.getRoles()) {
-                        System.out.println("Added: " + "ROLE_" + role.getRole().toUpperCase());
-                        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole().toUpperCase()));
-                    }
+                u = users.findOneByOauth(userAttributes.get("id").toString());
+            } else {
+                u = null; // Should never happen
+            }
+
+            if(u != null) {
+                for(UserRoles role : u.getRoles()) {
+                    System.out.println("Added: " + role.getRole());
+                    mappedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
                 }
             }
+
         });
         System.out.println(mappedAuthorities);
         return mappedAuthorities;

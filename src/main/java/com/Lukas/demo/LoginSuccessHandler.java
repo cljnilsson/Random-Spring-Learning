@@ -2,12 +2,11 @@ package com.Lukas.demo;
 
 import com.Lukas.demo.model.User;
 import com.Lukas.demo.repository.UserRepository;
-import com.Lukas.demo.service.CryptoAuthenticatedPrincipal;
+import com.Lukas.demo.service.CustomAuthenticatedPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
@@ -28,9 +27,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler
         String name = authentication.getName();
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken)authentication;
         String provider = token.getAuthorizedClientRegistrationId();
-        CryptoAuthenticatedPrincipal principal;
+        CustomAuthenticatedPrincipal principal;
 
-        principal = (CryptoAuthenticatedPrincipal)authentication.getPrincipal();
+        principal = (CustomAuthenticatedPrincipal)authentication.getPrincipal();
         System.out.println(principal.getName());
         System.out.println(principal.getImg());
 

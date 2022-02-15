@@ -21,7 +21,7 @@ public class UserRoles
 
     public String getRole()
     {
-        return role.getName();
+        return "ROLE_" + role.getName().toUpperCase();
     }
 
     public void setRole(AllRoles role)
