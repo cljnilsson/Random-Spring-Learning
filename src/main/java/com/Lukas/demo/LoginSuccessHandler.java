@@ -1,7 +1,11 @@
 package com.Lukas.demo;
 
+import com.Lukas.demo.model.AllRoles;
 import com.Lukas.demo.model.User;
+import com.Lukas.demo.model.UserRoles;
+import com.Lukas.demo.repository.AllRolesRepository;
 import com.Lukas.demo.repository.UserRepository;
+import com.Lukas.demo.repository.UserRolesRepository;
 import com.Lukas.demo.service.CustomAuthenticatedPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,17 +25,20 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler
     @Autowired
     UserRepository users;
 
+    @Autowired
+    UserRolesRepository userroles;
+
+    @Autowired
+    AllRolesRepository allRoles;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException
     {
-        String name = authentication.getName();
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken)authentication;
         String provider = token.getAuthorizedClientRegistrationId();
         CustomAuthenticatedPrincipal principal;
 
         principal = (CustomAuthenticatedPrincipal)authentication.getPrincipal();
-        System.out.println(principal.getName());
-        System.out.println(principal.getImg());
 
         switch (provider) {
             case "google":
@@ -49,12 +56,16 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler
             u.setOauthId(principal.getId());
             u.setOauthProvider(provider);
             users.save(u);
+
+            AllRoles whitelist = allRoles.getByName("whitelist");
+            UserRoles ur = new UserRoles();
+            ur.setRole(whitelist);
+            ur.setUser(u);
+            userroles.save(ur);
+
             System.out.println("User created with id: " + principal.getId() + " for provider: " + provider);
         }
 
-        //System.out.println(provider);
-        //System.out.println(name);
-        //System.out.println(authentication.getAuthorities());
         response.sendRedirect("/");
     }
 }

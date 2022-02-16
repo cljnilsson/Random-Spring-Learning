@@ -30,9 +30,9 @@ public class CluelessLearningApplication extends WebSecurityConfigurerAdapter {
 		http
 				.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/login/**", "/error").permitAll()
-				//.antMatchers("/").not().hasAnyAuthority("ROLE_BLACKLIST")
+				.antMatchers("/").hasRole("WHITELIST") // It's a bit backwards but whitelist works better with spring
 				.antMatchers("/api/**").hasAnyAuthority("ROLE_SUPERUSER")
+				.antMatchers("/login/**", "/error").permitAll()
 				.anyRequest().authenticated()
 			.and()
 				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())

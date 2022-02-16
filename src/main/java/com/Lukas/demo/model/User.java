@@ -1,5 +1,10 @@
 package com.Lukas.demo.model;
 
+import com.Lukas.demo.repository.AllRolesRepository;
+import com.Lukas.demo.repository.UserRepository;
+import com.Lukas.demo.repository.UserRolesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

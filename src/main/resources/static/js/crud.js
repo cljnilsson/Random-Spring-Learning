@@ -33,7 +33,7 @@ stomp.connect({}, function (frame) {
 		let body = JSON.parse(greeting.body);
 		let id = body.id;
 		let found = $(`tr[data-id=${id}]`);
-		console.log(found);
+
 		$(found).find(".name").text(body.name);
 		$(found).find(".done").text(body.done);
 	});
@@ -80,8 +80,8 @@ async function postData(url = "", data = {}) {
 }
 
 $(".add-item").click(async () => {
-	let name = $("#todo-text").val();
-	let done = $("#todo-done").is(":checked") ? "true" : "false";
+	const name = $("#todo-text").val();
+	const done = $("#todo-done").is(":checked") ? "true" : "false";
 
 	if(name !== "") {
 		let t = await postData(`/api/add?name=${name}&done=${done}`);
@@ -95,8 +95,8 @@ $(".add-item").click(async () => {
 });
 
 $("tbody").on("click", ".del-item", async (e) => {
-	let id = $(e.target).closest("tr").data("id");
-	let t = await postData(`/api/delete?id=${id}`);
+	const id = $(e.target).closest("tr").data("id");
+	const t = await postData(`/api/delete?id=${id}`);
 
 	if (t.status === 200) {
 		// Display error or something if this is not the case
@@ -118,10 +118,10 @@ function validateDone(done) {
 }
 
 $("tbody").on("click", ".save-item", async (e) => {
-	let row 	= $(e.target).closest("tr");
-	let id 		= $(row).data("id");
-	let name 	= $(row).find("td.name").text();
-	let done 	= $(row).find("td.done").text();
+	const row 	= $(e.target).closest("tr");
+	const id 		= $(row).data("id");
+	const name 	= $(row).find("td.name").text();
+	const done 	= $(row).find("td.done").text();
 
 	if (validateDone && validateId && validateName) {
 		let t = await postData(
@@ -151,6 +151,22 @@ $.get("/auth/user", function(data) {
 	console.log(data);
 	$("#user").text(data.name);
 	$("#avatar").attr("src", data.avatar);
+
+	// Lazy solution for json convert
+	let auths = data.auth.replaceAll(" ", "").replaceAll(",", '","').replace("[", '["').replace("]", '"]');
+	auths = `{"auth": ` + auths + `}`;
+
+	auths = JSON.parse(auths);
+	auths = auths.auth;
+
+	if(!auths.includes("ROLE_SUPERUSER"))  {
+		console.log("User can't access API");
+		$(".save-item").remove();
+		$(".add-item").closest(".row").remove();
+		$(".del-item").remove();
+	} else {
+		console.log("User can access API");
+	}
 }).fail(function() {
 	$(".alert-danger").value("reeeeeeeeeeeeee");
 });
