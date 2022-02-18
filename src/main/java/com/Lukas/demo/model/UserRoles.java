@@ -1,9 +1,11 @@
 package com.Lukas.demo.model;
 
+import lombok.Setter;
+
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
+@Setter
 public class UserRoles
 {
     @Id
@@ -24,11 +26,6 @@ public class UserRoles
         return "ROLE_" + role.getName().toUpperCase();
     }
 
-    public void setRole(AllRoles role)
-    {
-        this.role = role;
-    }
-
     @ManyToOne
     @JoinColumn(name = "user")
     private User user;
@@ -37,10 +34,4 @@ public class UserRoles
     {
         return user;
     }
-
-    public void setUser(User user)
-    {
-        this.user = user;
-    }
-
 }

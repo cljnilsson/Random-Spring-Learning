@@ -1,5 +1,7 @@
 #### Todo list application with spring as backend.
 
+![showcase](https://i.gyazo.com/e8cb810bc700ad9f12faf677851e2de7.png)
+
 ##### Dev Commands
 mvn spring-boot:run  
 mvn clean package  

@@ -42,7 +42,7 @@ public class CluelessLearningApplication extends WebSecurityConfigurerAdapter {
 				.oauth2Login()
 				.successHandler(loginHandler)
 				.userInfoEndpoint()
-					// While it is named GoogleUser and Github users, in practice it's basically OauthUser and OidcUser
+					// While it is named GoogleUser and GithubUser§, in practice it's basically OauthUser and OidcUser until updated
 					.customUserType(GoogleUser.class, "google")
 					.customUserType(GithubUser.class, "github")
 					.oidcUserService(new CustomOidcUserService())

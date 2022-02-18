@@ -29,18 +29,18 @@ public class AuthorityMapper implements GrantedAuthoritiesMapper
     {
         Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
         authorities.forEach(a -> {
-            User u; // Unfinished, it should check for both id and provider
+            User u; // Some hardcoded stuff here which does not scale in case more oauth providers are added.
 
             if(OidcUserAuthority.class.isInstance(a)) {
                 OidcUserAuthority oidcUserAuthority = (OidcUserAuthority)a;
 
                 Map<String, Object> userAttributes = oidcUserAuthority.getAttributes();
-                u = users.findOneByOauth(userAttributes.get("sub").toString());
+                u = users.findOneByOauthIdAndProvider("google", userAttributes.get("sub").toString());
             } else if(OAuth2UserAuthority.class.isInstance(a)) {
                 OAuth2UserAuthority oauth2UserAuthority = (OAuth2UserAuthority)a;
                 Map<String, Object> userAttributes = oauth2UserAuthority.getAttributes();
 
-                u = users.findOneByOauth(userAttributes.get("id").toString());
+                u = users.findOneByOauthIdAndProvider("github", userAttributes.get("id").toString());
             } else {
                 u = null; // Should never happen
             }

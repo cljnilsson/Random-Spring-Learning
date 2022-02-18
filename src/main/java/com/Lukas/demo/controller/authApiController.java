@@ -27,7 +27,7 @@ public class authApiController
         User u = users.findOneByOauthIdAndProvider(iPrincipal.getProvider(), iPrincipal.getId());
 
         all.addAll((Collection)principal.getAuthorities());
-        ArrayList<UserRoles> first = u.getRoles();
+        ArrayList<UserRoles> first = new ArrayList<>(u.getRoles());
 
         for(int i = 0; i < first.size(); i++) {
             all.add(first.get(i).getRole());
