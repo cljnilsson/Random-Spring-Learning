@@ -1,8 +1,5 @@
 package com.Lukas.demo;
 
-//import com.Lukas.demo.model.AllRoles;
-//import com.Lukas.demo.repository.AllRolesRepository;
-
 import com.Lukas.demo.model.AllRoles;
 import com.Lukas.demo.repository.AllRolesRepository;
 import org.junit.jupiter.api.Test;

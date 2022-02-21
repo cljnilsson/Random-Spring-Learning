@@ -4,7 +4,7 @@
 
 ##### Dev Commands
 mvn spring-boot:run  
-mvn clean package  
+mvn clean package -Dmaven.test.skip
 java -jar ./target/demo-0.0.1-SNAPSHOT.jar  
 
 

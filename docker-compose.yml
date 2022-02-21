@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  spring-test:
+    image: springboot-docker-compose-app:1
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/database?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
+      spring.security.oauth2.client.registration.github.clientId: c1d1c4d2ccdacfc40c8e
+      spring.security.oauth2.client.registration.github.clientSecret: 544f86847381d4909068c6bc760142145d6d708d
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      - cyb-networks
+    volumes:
+      - /data/springboot-docker-compose-app
+    ports:
+      - "8080:8080"
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: 'spring'
+      # So you don't have to use root, but you can if you like
+      MYSQL_ROOT_PASSWORD: ''
+    ports:
+      - '3306:3306'
+    networks:
+      - cyb-networks
+    volumes:
+      - my-db:/var/lib/mysql
+networks:
+  cyb-networks:
+volumes:
+  my-db:
